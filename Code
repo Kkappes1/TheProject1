@@ -1,4 +1,6 @@
+# Function to draw the Tic-Tac-Toe board
 def draw_board(board):
+# Formatting the Tic-Tac-Toe board
     p1 = f" {board[0][0]} | {board[0][1]} | {board[0][2]} "
     p2 = '-----------'
     p3 = f" {board[1][0]} | {board[1][1]} | {board[1][2]} "
@@ -11,8 +13,9 @@ def draw_board(board):
     print(p4)
     print(p5)
 
+# Function to check if a player has won
 def check_win(board, player):
-    # Check rows, columns, and diagonals for a win
+    # Checks rows, columns, and diagonals for a win
     for i in range(3):
         if all([cell == player for cell in board[i]]) or \
            all([board[j][i] == player for j in range(3)]):
@@ -20,15 +23,19 @@ def check_win(board, player):
     return board[0][0] == player and board[1][1] == player and board[2][2] == player or \
            board[0][2] == player and board[1][1] == player and board[2][0] == player
 
+# Function to check for a tie
 def is_board_full(board):
     return all(all(cell != " " for cell in row) for row in board)
 
+# Function to make a move on the board
 def make_move(board, position, player):
+    # Place a player's marker at the chosen position
     if board[position[0]][position[1]] == " ":
         board[position[0]][position[1]] = player
         return True
     return False
 
+#Function to get the player's move
 def get_move():
     while True:
         try:
@@ -38,26 +45,28 @@ def get_move():
         except ValueError:
             print("Invalid input. Please enter row and column numbers.")
 
+# Main game function to play Tic-Tac-Toe
 def play_tic_tac_toe():
     board = [[" " for _ in range(3)] for _ in range(3)]
     current_player = "X"
-
+# Main game loop
     while True:
-        draw_board(board)
+        draw_board(board) # display board
         print(f"Player {current_player}'s turn.")
 
-        x, y = get_move()
-        if make_move(board, (x, y), current_player):
-            if check_win(board, current_player):
+        x, y = get_move() # get player's move
+        if make_move(board, (x, y), current_player): # complete move if valid
+            if check_win(board, current_player): # check for win
                 draw_board(board)
                 print(f"Player {current_player} wins!")
                 break
-            elif is_board_full(board):
+            elif is_board_full(board): # check for tie
                 draw_board(board)
                 print("It's a tie!")
                 break
-            current_player = "O" if current_player == "X" else "X"
+            current_player = "O" if current_player == "X" else "X" # Switch platers
         else:
-            print("This position is already occupied.")
+            print("This position is already occupied.") # Incase invalid move
+
 
 play_tic_tac_toe()
